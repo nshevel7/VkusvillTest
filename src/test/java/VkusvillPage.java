@@ -9,12 +9,14 @@ import java.util.List;
 public class VkusvillPage {
     private final WebDriver driver;
     private final String iceCreamXpath = "//span[contains(text(),'Мороженое') and contains(@class,'LinkCol')]";
+    private final String teaAndCoffeeXpath = "//span[contains(text(),'Чай и кофе') and contains(@class,'LinkCol')]";
     private final String catalogSorterButtonXpath = "//span[@class='js-catalog-sorter-title']";
     private final String sortPriceButtonXpath = "//div[contains(text(),'По возрастанию цены')]";
     private final String pricesXpath = "//span[@class='Price__value' and not(ancestor::div[contains(@class, 'preloaded hidden')]) and not (ancestor::span[contains(@class, 'last')])]";
     private final String nextPageButtonXpath = "//span[text()='Вперёд']";
     private final String loadingSpinner = "//span[@class='ui-spinner__svg']";
     private WebElement iceCreamButton;
+    private WebElement teaAndCoffeeButton;
     private WebElement catalogSorterButton;
     private WebElement sortPriceButton;
     private WebElement nextPageButton;
@@ -24,12 +26,21 @@ public class VkusvillPage {
     public VkusvillPage(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        iceCreamButton = driver.findElement(By.xpath(iceCreamXpath));
     }
 
     public void selectIceCream() {
+        iceCreamButton = driver.findElement(By.xpath(iceCreamXpath));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", iceCreamButton);
         iceCreamButton.click();
+    }
+
+    public void selectTeaAndCoffee() {
+        teaAndCoffeeButton = driver.findElement(By.xpath(teaAndCoffeeXpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", teaAndCoffeeButton);
+        teaAndCoffeeButton.click();
+    }
+
+    public void sortPrices() {
         catalogSorterButton = wait.until(driver -> driver.findElement(By.xpath(catalogSorterButtonXpath)));
         catalogSorterButton.click();
         sortPriceButton = driver.findElement(By.xpath(sortPriceButtonXpath));
@@ -47,15 +58,13 @@ public class VkusvillPage {
 
         int pageLimit = 10;
         for (int i = 0; i < pageLimit; ++i) {
-            try {
-                parsePricesFromOnePage();
-                clickNextPage();
-            } catch (TimeoutException e) {
-                // Последняя страница
+            parsePricesFromOnePage();
+            if (driver.findElements(By.xpath(nextPageButtonXpath)).size() == 0) {
                 return pageAverages;
             }
+            clickNextPage();
         }
-        return pageAverages;
+        return null;
     }
 
     public void parsePricesFromFirstPage() {

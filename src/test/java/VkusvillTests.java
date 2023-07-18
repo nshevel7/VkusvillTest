@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class VTest {
+public class VkusvillTests {
 
     WebDriver driver;
 
@@ -24,10 +24,23 @@ public class VTest {
     }
 
     @Test
-    public void VkusvillTest() {
+    public void iceCreamTest() {
         driver.get("https://vkusvill.ru/goods/");
         VkusvillPage vkusvillPage = new VkusvillPage(driver);
         vkusvillPage.selectIceCream();
+        vkusvillPage.sortPrices();
+        List<Double> priceAverages = vkusvillPage.parsePrices();
+        List<Double> sortedAverages = new ArrayList<>(priceAverages);
+        Collections.sort(sortedAverages);
+        Assertions.assertEquals(priceAverages, sortedAverages, "Цена в среднем не возрастает.");
+    }
+
+    @Test
+    public void teaAndCoffeeTest() {
+        driver.get("https://vkusvill.ru/goods/");
+        VkusvillPage vkusvillPage = new VkusvillPage(driver);
+        vkusvillPage.selectTeaAndCoffee();
+        vkusvillPage.sortPrices();
         List<Double> priceAverages = vkusvillPage.parsePrices();
         List<Double> sortedAverages = new ArrayList<>(priceAverages);
         Collections.sort(sortedAverages);
