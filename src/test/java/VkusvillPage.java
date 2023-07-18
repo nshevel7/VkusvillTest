@@ -56,7 +56,7 @@ public class VkusvillPage {
         parsePricesFromFirstPage();
         clickNextPage();
 
-        int pageLimit = 10;
+        int pageLimit = 15;
         for (int i = 0; i < pageLimit; ++i) {
             parsePricesFromOnePage();
             if (driver.findElements(By.xpath(nextPageButtonXpath)).size() == 0) {
