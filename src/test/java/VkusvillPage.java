@@ -12,7 +12,7 @@ public class VkusvillPage {
     private final String teaAndCoffeeXpath = "//span[contains(text(),'Чай и кофе') and contains(@class,'LinkCol')]";
     private final String catalogSorterButtonXpath = "//span[@class='js-catalog-sorter-title']";
     private final String sortPriceButtonXpath = "//div[contains(text(),'По возрастанию цены')]";
-    private final String pricesXpath = "//span[@class='Price__value' and not(ancestor::div[contains(@class, 'preloaded hidden')]) and not (ancestor::span[contains(@class, 'last')])]";
+    private final String pricesXpath = "//span[@class='Price__value' and not(ancestor::div[contains(@class, 'preloaded hidden')]) and not (ancestor::span[contains(@class, 'last')]) and not(ancestor::div[contains(@class, 'swiper-container-horizontal')])]";
     private final String nextPageButtonXpath = "//span[text()='Вперёд']";
     private final String loadingSpinner = "//span[@class='ui-spinner__svg']";
     private WebElement iceCreamButton;
